@@ -1,39 +1,77 @@
 class Solution {
 public:
-int s;
-vector<vector<int>> result;
 
-    void solve(unordered_map<int, int>& mp, vector<int>& temp){
 
-        if(temp.size() == s){
-            result.push_back(temp);
-            return;
-        }
+// ------------------------------- Approach 1 ---------------------------
+// int s;
+// vector<vector<int>> result;
 
-        for(auto& [num, count] : mp) {
-            if(count == 0) continue;
+//     void solve(unordered_map<int, int>& mp, vector<int>& temp){
 
-            temp.push_back(num);
-            mp[num]--;
+//         if(temp.size() == s){
+//             result.push_back(temp);
+//             return;
+//         }
 
-            solve(mp, temp);
+//         for(auto& [num, count] : mp) {
+//             if(count == 0) continue;
 
-            temp.pop_back();
-            mp[num]++;
+//             temp.push_back(num);
+//             mp[num]--;
+
+//             solve(mp, temp);
+
+//             temp.pop_back();
+//             mp[num]++;
             
-        }
+//         }
+//     }
+
+//-------------------------------Approach 2-----------------------------------------
+
+vector<vector<int>> result;
+int s;
+
+void solve(vector<int>& nums, int idx) {
+
+    if(idx == s) {
+        result.push_back(nums);
+        return;
     }
-    vector<vector<int>> permuteUnique(vector<int>& nums) {
-        s = nums.size();
-        unordered_map<int, int> mp;
+    unordered_set<int> uniqueSet;
 
-        for(auto& n : nums){
-            mp[n]++;
+    for(int i = idx; i < s; i++) {
+        if(uniqueSet.find(nums[i]) != uniqueSet.end()) {
+            continue;
         }
+        uniqueSet.insert(nums[i]);
+        swap(nums[i], nums[idx]);
 
-        vector<int> temp;
-        solve(mp, temp);
+        solve(nums, idx+1);
+
+        swap(nums[i], nums[idx]);
+    }
+}
+
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        // s = nums.size();
+        // unordered_map<int, int> mp;
+
+        // for(auto& n : nums){
+        //     mp[n]++;
+        // }
+
+        // vector<int> temp;
+        // solve(mp, temp);
+
+        // return result;
+
+        s = nums.size();
+
+        solve(nums, 0);
 
         return result;
+
+
     }
 };
