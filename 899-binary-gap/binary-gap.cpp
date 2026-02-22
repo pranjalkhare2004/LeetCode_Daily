@@ -24,17 +24,23 @@ dist = set bit 2 -  set bit 1
 maxdist = max(maxdist, dist)
 
 */
-        int curr = 0;
+        // int curr = 0;
         int prev = -1;
         int result = 0;
 
-        while(n > 0){
-            if((n&1) > 0){
-                result = (prev != -1) ? max(result, curr-prev) : result;
-                prev = curr;
+        // while(n > 0){
+        //     if((n&1) > 0){
+        //         result = (prev != -1) ? max(result, curr-prev) : result;
+        //         prev = curr;
+        //     }
+        //     n>>=1;
+        //     curr++;
+        // }
+        for(int curr = 0; curr < 32; curr++){
+            if(((n>>curr)&1) > 0){
+                result = (prev!=-1) ? max(result, curr-prev) : result;
+                prev=curr;
             }
-            n>>=1;
-            curr++;
         }
         return result;
     }
